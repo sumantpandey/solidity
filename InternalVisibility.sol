@@ -26,5 +26,17 @@ contract InternalVisibility{
     contract DerivedContract is InternalVisibility {
     function myFunc() public view returns (uint256) {
         uint256 myVarCopy = myVar;
+       }
     }
-    }
+
+    /**
+     below code is not fine, internal variable and methods can
+     not be used in other contract
+    */
+    contract OtherContract {
+      function myFunc() public view returns (uint256) {
+       InternalVisibility c = new InternalVisibility();
+       // Nope this does not work. myVar is private to MyContract.
+       c.myVar;
+  }
+}
